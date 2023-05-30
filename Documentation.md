@@ -30,7 +30,11 @@ Le premier module a été consacré à la mise en place de notre environnement d
 ## Module 2 - Objectifs de santé
 Le deuxième module permet aux utilisateurs de saisir leurs informations personnelles et de calculer leur apport calorique recommandé en fonction de leurs objectifs de santé.
 
-@todo
+Au cours du développement de ce module, nous n'avons pas rencontré trop dé complications étant donné que les formules étaient déjà données dans les instructions.
+
+Nous avons eu un peu plus de difficultés sur la gestion des différents types d'input et leur validation. Nous avons dû mettre en place des vérifications pour s'assurer que les entrées de l'utilisateur étaient bien dans les plages acceptables, pour éviter par exemple que l'utilisateur envoi le formulaire sans avoir choisi le sexe, le niveau d'activités etc.. 
+
+![module 2](module21.png)
 
 ## Module 3 - Base de données alimentaires
 @todo

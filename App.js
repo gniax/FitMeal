@@ -15,9 +15,9 @@ export default function App() {
     // Trois onglets: HealthGoals - FoodDatabase - MealPlanning
     <NavigationContainer>
       <Tab.Navigator>
-        <Tab.Screen name="HealthGoals" component={HealthGoals} />
-        <Tab.Screen name="FoodDatabase" component={FoodDatabase} />
-        <Tab.Screen name="MealPlanning" component={MealPlanning} />
+        <Tab.Screen name="Objectifs de Santé" component={HealthGoals} />
+        <Tab.Screen name="Food Database" component={FoodDatabase} />
+        <Tab.Screen name="Planificateur de Repas" component={MealPlanning} />
       </Tab.Navigator>
     </NavigationContainer>
   );
