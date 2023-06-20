@@ -5,7 +5,7 @@
 // - v pour les var
 import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, TextInput, Image, ScrollView, StyleSheet, TouchableOpacity, Modal } from 'react-native';
-import { Picker } from '@react-native-picker/picker';
+import DropDownPicker from 'react-native-dropdown-picker';
 import DatePicker from '@react-native-community/datetimepicker';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -19,7 +19,15 @@ export default function FoodDatabase() {
   const { cMealPlan, setMealPlan } = useContext(MealPlanContext);
   const [cSearchQuery, setSearchQuery] = useState('');
   const [cFoodData, setFoodData] = useState([]);
+  const [cMealTypeOpen, setMealTypeOpen] = useState(false);
   const [cMealType, setMealType] = useState('Breakfast');
+
+  const cMealTypeItems = [
+    { label: 'Petit déjeuner', value: 'Breakfast' },
+    { label: 'Déjeuner', value: 'Lunch' },
+    { label: 'Collation', value: 'Snack' },
+    { label: 'Dîner', value: 'Dinner' }
+  ];
   const [cModalVisible, setModalVisible] = useState(false);
   const [cSelectedFood, setSelectedFood] = useState(null);
   const [cMealDay, setMealDay] = useState(new Date());
@@ -89,9 +97,18 @@ export default function FoodDatabase() {
     setMealDay(currentDate);
   };
 
+  const formatDate = (date) => {
+    const day = date.getDate();
+    const month = date.getMonth() + 1; // Les mois sont indexés à partir de 0
+    const year = date.getFullYear();
+  
+    return `${day}/${month}/${year}`;
+  }
+
+  
   const confirmAddToMealPlan = async () => {
     setMealPlan(pPrevPlan => {
-      const dayKey = cMealDay.toLocaleDateString();
+      const dayKey = formatDate(cMealDay);
       const updatedMealPlan = {
         ...pPrevPlan,
         [dayKey]: {
@@ -233,16 +250,18 @@ export default function FoodDatabase() {
             <Ionicons name="close-outline" size={24} color="black" />
           </TouchableOpacity>
           <Text style={cStyles.modalText}>Ajouter le repas au plan</Text>
-          <Picker selectedValue={cMealType} onValueChange={setMealType} style={cStyles.picker}>
-            <Picker.Item label="Petit déjeuner" value="Breakfast" />
-            <Picker.Item label="Déjeuner" value="Lunch" />
-            <Picker.Item label="Collation" value="Snack" />
-            <Picker.Item label="Dîner" value="Dinner" />
-          </Picker>
+          <DropDownPicker
+            open={cMealTypeOpen}
+            value={cMealType}
+            style={cStyles.dropdownPicker}
+            items={cMealTypeItems}
+            setOpen={setMealTypeOpen}
+            setValue={setMealType}
+          />
 
           <TouchableOpacity onPress={() => setShowDatePicker(true)}>
             <View style={cStyles.datePickerButton}>
-              <Text style={cStyles.datePickerText}>Jour du repas: {cMealDay.toLocaleDateString()}</Text>
+              <Text style={cStyles.datePickerText}>Jour du repas: {formatDate(cMealDay)}</Text>
               <Ionicons style={cStyles.datePickerButtonIcon} name="chevron-down-outline" size={24} color="black" />
             </View>
           </TouchableOpacity>
@@ -406,6 +425,10 @@ const cStyles = StyleSheet.create({
     padding: 7,
     elevation: 2,
   },
+  dropdownPicker: {
+    marginY: 20,
+    paddingY: 20,
+  },
   modalButton: {
     backgroundColor: '#333',
     borderRadius: 20,
@@ -427,7 +450,7 @@ const cStyles = StyleSheet.create({
     borderRadius: 5,
     color: '#fff',
     marginBottom: 20
-  },  
+  },
   titleView: {
     fontSize: 20,
     fontWeight: 'bold',

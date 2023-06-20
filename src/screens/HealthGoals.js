@@ -5,18 +5,44 @@
 // - v pour les var
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
-import { Picker } from '@react-native-picker/picker';
+import DropDownPicker from 'react-native-dropdown-picker';
 
 export default function HealthGoals() {
   const [cAge, setAge] = useState('');
-  const [cGender, setGender] = useState('');
+  const [cGenderValue, setGenderValue] = useState(null);
   const [cHeight, setHeight] = useState('');
   const [cWeight, setWeight] = useState('');
-  const [cActivityLevel, setActivityLevel] = useState('');
-  const [cHealthGoal, setHealthGoal] = useState('');
+  const [cActivityLevelValue, setActivityLevelValue] = useState(null);
+  const [cHealthGoalValue, setHealthGoalValue] = useState(null);
   const [cCaloricIntake, setCaloricIntake] = useState('');
   const [cError, setError] = useState('');
   const [cResetKey, setResetKey] = useState(0);
+
+  const [cGenderOpen, setGenderOpen] = useState(false);
+  const [cActivityLevelOpen, setActivityLevelOpen] = useState(false);
+  const [cHealthGoalOpen, setHealthGoalOpen] = useState(false);
+
+  const cGenderItems = [
+    { label: 'Choisir le sexe', value: 'default' },
+    { label: 'Homme', value: 'male' },
+    { label: 'Femme', value: 'female' },
+  ];
+
+  const cActivityLevelItems = [
+    { label: 'Choisir le niveau d\'activité', value: 'default' },
+    { label: 'Sédentaire', value: 'sedentary' },
+    { label: 'Légèrement actif', value: 'lightly active' },
+    { label: 'Modérément actif', value: 'moderately active' },
+    { label: 'Très actif', value: 'very active' },
+    { label: 'Super actif', value: 'super active' },
+  ];
+
+  const cHealthGoalItems = [
+    { label: 'Choisir l\'objectif de santé', value: 'default' },
+    { label: 'Perdre du poids', value: 'lose weight' },
+    { label: 'Maintenir votre poids', value: 'maintain weight' },
+    { label: 'Prendre du poids', value: 'gain weight' },
+  ];
 
   const cActivityLevels = {
     'sedentary': 1.2,
@@ -34,30 +60,30 @@ export default function HealthGoals() {
 
   // calcul des calories - on verifie si le formulaire est valide d'abord
   const calculateCaloricIntake = () => {
-    if (!cAge || !cGender || !cHeight || !cWeight || !cActivityLevel || !cHealthGoal) {
+    if (!cAge || !cGenderValue || !cHeight || !cWeight || !cActivityLevelValue || !cHealthGoalValue) {
       setError('Veuillez remplir tous les champs avant de calculer.');
       return;
     }
 
     // les calculs
     setError('');
-    let lBMR = cGender === 'male'
+    let lBMR = cGenderValue === 'male'
       ? 88.362 + (13.397 * cWeight) + (4.799 * cHeight) - (5.677 * cAge)
       : 447.593 + (9.247 * cWeight) + (3.098 * cHeight) - (4.330 * cAge);
 
-    let lAdjustedBMR = lBMR * cActivityLevels[cActivityLevel];
-    let lFinalCaloricIntake = lAdjustedBMR + cHealthGoals[cHealthGoal];
+    let lAdjustedBMR = lBMR * cActivityLevels[cActivityLevelValue];
+    let lFinalCaloricIntake = lAdjustedBMR + cHealthGoals[cHealthGoalValue];
     setCaloricIntake(Math.round(lFinalCaloricIntake));
   }
 
   // reset du formulaire
   const resetForm = () => {
     setAge('');
-    setGender('');
+    setGenderValue('');
     setHeight('');
     setWeight('');
-    setActivityLevel('');
-    setHealthGoal('');
+    setActivityLevelValue('');
+    setHealthGoalValue('');
     setCaloricIntake('');
     setError('');
     setResetKey(prevKey => prevKey + 1);
@@ -68,37 +94,36 @@ export default function HealthGoals() {
       <Text style={cStyles.inputLabel}>Age</Text>
       <TextInput key={`age-${cResetKey}`} style={cStyles.input} placeholder="Age" placeholderTextColor="#B2B2B2" onChangeText={text => setAge(text)} keyboardType='numeric' />
       <Text style={cStyles.inputLabel}>Sexe</Text>
-      <View style={cStyles.picker}>
-        <Picker color="#B2B2B2" selectedValue={cGender} onValueChange={setGender} style={cStyles.pickerText} dropdownIconColor="#F8F8F8">
-          <Picker.Item color="#B2B2B2" label="Choisir le sexe" value="" />
-          <Picker.Item color="#B2B2B2" label="Homme" value="male" />
-          <Picker.Item color="#B2B2B2" label="Femme" value="female" />
-        </Picker>
-      </View>
+      <DropDownPicker
+        open={cGenderOpen}
+        value={cGenderValue}
+        items={cGenderItems}
+        setOpen={setGenderOpen}
+        setValue={setGenderValue}
+        style={cStyles.pickerBox}
+      />
       <Text style={cStyles.inputLabel}>Taille en cm</Text>
       <TextInput key={`height-${cResetKey}`} style={cStyles.input} placeholderTextColor="#B2B2B2" placeholder="Taille en cm" onChangeText={text => setHeight(text)} keyboardType='numeric' />
       <Text style={cStyles.inputLabel}>Poids en kg</Text>
       <TextInput key={`weight-${cResetKey}`} style={cStyles.input} placeholderTextColor="#B2B2B2" placeholder="Poids en kg" onChangeText={text => setWeight(text)} keyboardType='numeric' />
       <Text style={cStyles.inputLabel}>Niveau d'activité</Text>
-      <View style={cStyles.picker}>
-        <Picker selectedValue={cActivityLevel} style={cStyles.picker} onValueChange={setActivityLevel} dropdownIconColor="#F8F8F8">
-          <Picker.Item color="#B2B2B2" label="Choisir le niveau d'activité" value="" />
-          <Picker.Item color="#B2B2B2" label="Sédentaire" value="sedentary" />
-          <Picker.Item color="#B2B2B2" label="Légèrement actif" value="lightly active" />
-          <Picker.Item color="#B2B2B2" label="Modérément actif" value="moderately active" />
-          <Picker.Item color="#B2B2B2" label="Très actif" value="very active" />
-          <Picker.Item color="#B2B2B2" label="Super actif" value="super active" />
-        </Picker>
-      </View>
+      <DropDownPicker
+        open={cActivityLevelOpen}
+        value={cActivityLevelValue}
+        items={cActivityLevelItems}
+        setOpen={setActivityLevelOpen}
+        setValue={setActivityLevelValue}
+        style={cStyles.pickerBox}
+      />
       <Text style={cStyles.inputLabel}>Objectif de santé</Text>
-      <View style={cStyles.picker}>
-        <Picker selectedValue={cHealthGoal} style={cStyles.picker} onValueChange={setHealthGoal} dropdownIconColor="#F8F8F8">
-          <Picker.Item color="#B2B2B2" label="Choisir l'objectif de santé" value="" />
-          <Picker.Item color="#B2B2B2" label="Perdre du poids" value="lose weight" />
-          <Picker.Item color="#B2B2B2" label="Maintenir votre poids" value="maintain weight" />
-          <Picker.Item color="#B2B2B2" label="Prendre du poids" value="gain weight" />
-        </Picker>
-      </View>
+      <DropDownPicker
+        open={cHealthGoalOpen}
+        value={cHealthGoalValue}
+        items={cHealthGoalItems}
+        setOpen={setHealthGoalOpen}
+        style={cStyles.pickerBox}
+        setValue={setHealthGoalValue}
+      />
       <View style={cStyles.buttonContainer}>
         <TouchableOpacity style={cStyles.calculateButton} onPress={calculateCaloricIntake}>
           <Text style={cStyles.buttonText}>Calculer</Text>
@@ -159,11 +184,8 @@ const cStyles = StyleSheet.create({
     paddingLeft: 10,
     color: '#F8F8F8',
   },
-  picker: {
-    borderColor: '#F8F8F8',
-    borderWidth: 1,
+  pickerBox: {
     marginBottom: 20,
-    marginBottom: 20
   },
   pickerText: {
     color: '#F8F8F8',

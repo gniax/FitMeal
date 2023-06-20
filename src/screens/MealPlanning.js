@@ -114,8 +114,8 @@ export default function MealPlanning() {
             return (
               <View key={index}>
                 <Text style={cStyles.mealName}>{cTraduction[meal]}</Text>
-                {cMealPlan && Object.keys(cMealPlan).includes(cDate.format('M/D/YYYY')) && cMealPlan[cDate.format('M/D/YYYY')][meal] ? (
-                  cMealPlan[cDate.format('M/D/YYYY')][meal].map((lFood, lFoodIndex) => (
+                {cMealPlan && Object.keys(cMealPlan).includes(cDate.format('D/M/YYYY')) && cMealPlan[cDate.format('D/M/YYYY')][meal] ? (
+                  cMealPlan[cDate.format('D/M/YYYY')][meal].map((lFood, lFoodIndex) => (
                     <View key={lFoodIndex} style={cStyles.foodContainer}>
                       <Image source={{ uri: lFood.foodImage }} style={cStyles.foodLogo} />
                       <View style={cStyles.foodInfo}>
@@ -125,7 +125,7 @@ export default function MealPlanning() {
                         <Text style={cStyles.foodCalories}>Lipides: {lFood.foodLipides}g</Text>
                         <Text style={cStyles.foodCalories}>Protéines: {lFood.foodProteines}g</Text>
                       </View>
-                      <TouchableOpacity style={cStyles.deleteButton} onPress={() => removeFoodFromMeal(cDate.format('M/D/YYYY'), meal, lFoodIndex)}>
+                      <TouchableOpacity style={cStyles.deleteButton} onPress={() => removeFoodFromMeal(cDate.format('D/M/YYYY'), meal, lFoodIndex)}>
                         <Ionicons name="trash-outline" size={24} color="#fff" />
                       </TouchableOpacity>
                     </View>
@@ -140,10 +140,10 @@ export default function MealPlanning() {
         </View>
         <View style={cStyles.totalContainer}>
           <View style={cStyles.hr} />
-          <Text style={cStyles.totalCaloriesText}>Total Calories: {calculateDailyCalories(cMealPlan[cDate.format('M/D/YYYY')]).totalCalories}</Text>
-          <Text style={cStyles.totalCaloriesText}>Total Glucides: {calculateDailyCalories(cMealPlan[cDate.format('M/D/YYYY')]).totalGlucides}g</Text>
-          <Text style={cStyles.totalCaloriesText}>Total Lipides: {calculateDailyCalories(cMealPlan[cDate.format('M/D/YYYY')]).totalLipides}g</Text>
-          <Text style={cStyles.totalCaloriesText}>Total Protéines: {calculateDailyCalories(cMealPlan[cDate.format('M/D/YYYY')]).totalProteines}g</Text>
+          <Text style={cStyles.totalCaloriesText}>Total Calories: {calculateDailyCalories(cMealPlan[cDate.format('D/M/YYYY')]).totalCalories}</Text>
+          <Text style={cStyles.totalCaloriesText}>Total Glucides: {calculateDailyCalories(cMealPlan[cDate.format('D/M/YYYY')]).totalGlucides}g</Text>
+          <Text style={cStyles.totalCaloriesText}>Total Lipides: {calculateDailyCalories(cMealPlan[cDate.format('D/M/YYYY')]).totalLipides}g</Text>
+          <Text style={cStyles.totalCaloriesText}>Total Protéines: {calculateDailyCalories(cMealPlan[cDate.format('D/M/YYYY')]).totalProteines}g</Text>
         </View>
       </View>
     </ScrollView>
