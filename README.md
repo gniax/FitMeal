@@ -31,7 +31,7 @@ L'objectif de FitMeal est de fournir un moyen simple et efficace pour les utilis
 5. Exécutez `npx expo start` pour démarrer l'application.
 6. Téléchargez l'application [Expo Go](https://expo.dev/client) sur votre téléphone et scannez le code QR qui s'affiche dans votre terminal.
 
-## Documentation (Suivi de )
+## Documentation (Suivi de projet)
 
 Nous avons choisi d'effectuer le suivi de projet (documentaiton) en .md que nous convertirons en PDF en u'itlisant un outil de conversion. Cela sera plus simple pour co-travailler sur une documentation commune, inclure les screenshots etc..
 
