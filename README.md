@@ -31,6 +31,16 @@ L'objectif de FitMeal est de fournir un moyen simple et efficace pour les utilis
 5. Exécutez `npx expo start` pour démarrer l'application.
 6. Téléchargez l'application [Expo Go](https://expo.dev/client) sur votre téléphone et scannez le code QR qui s'affiche dans votre terminal.
 
-## Suivi de projet
+## Documentation (Suivi de )
 
 Nous avons choisi d'effectuer le suivi de projet (documentaiton) en .md que nous convertirons en PDF en u'itlisant un outil de conversion. Cela sera plus simple pour co-travailler sur une documentation commune, inclure les screenshots etc..
+
+La documentation du projet se trouve dans le dossier "documentation" sous le nom "Documentation.pdf".
+
+## Vidéo de démonstration complète
+
+La vidéo de démonstration de l'application se trouve dans le dossier "demo_video". Le fichier est "demo_complete.mp4". Elle donne un aperçu de chaque module et utilisation de l'application.
+
+## Vidéo de publicité de l'application
+
+Etant pas sur du but de la video, nous avons également fait une vidéo de publicité de l'application qui se trouve également dans le dossier "demo_video". Il s'agit de la deuxième vidéo du dossier.
